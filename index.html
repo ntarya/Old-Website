@@ -1,201 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<title>NotArya</title>
-<style>
-    body {
-        font-family: 'JetBrains Mono', monospace;
-        margin: 0;
-        padding: 0;
-        background-color: #1e1e2e;
-        color: #e3e6f3;
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        height: 100vh;
-    }
-    
-    
-    .container {
-        max-width: 800px;
-        margin: 20px;
-        padding: 20px;
-        text-align: left;
-    }
-    
-    .title {
-        font-size: 2.6em;
-        font-weight: 600;
-    }
-    
-    .highlight {
-        color: #cba6f7;
-    }
-    
-    p {
-        font-size: 1.5em;
-        margin-top: 20px;
-    }
-
-    @media (max-width: 768px) {
-        .title {
-            font-size: 3em;
-        }
-    }
-    @media (max-width: 768px) {
-        p {
-            font-size: 1.5em;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .title {
-            font-size: 2.5em;
-        }
-    }
-    @media (max-width: 576px) {
-        p {
-            font-size: 1.4em;
-        }
-    }
-    .blurple {
-        color: #8caaee; /* Discord blurple color */
-    }
-
-  
-    .pastel {
-        color: #ef9f76; /* Pastel color */
-    } 
-
-    a {
-        text-decoration: none;
-        color: #f2d5cf;
-    }
-    
-
-    
-</style>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>NotArya</title>
+    <style>
+      body {
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e2e;
+      color: #e3e6f3;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      height: 100vh;
+      }
+      .container {
+      max-width: 800px;
+      margin: 20px;
+      padding: 20px;
+      text-align: left;
+      }
+      .title {
+      font-size: 2.6em;
+      font-weight: 600;
+      }
+      .highlight {
+      color: #cba6f7;
+      }
+      p {
+      font-size: 1.5em;
+      margin-top: 20px;
+      }
+      @media (max-width: 768px) {
+      .title {
+      font-size: 3em;
+      }
+      }
+      @media (max-width: 768px) {
+      p {
+      font-size: 1.5em;
+      }
+      }
+      @media (max-width: 576px) {
+      .title {
+      font-size: 2.5em;
+      }
+      }
+      @media (max-width: 576px) {
+      p {
+      font-size: 1.4em;
+      }
+      }
+      .blurple {
+      color: #8caaee;
+      }
+      .pastel {
+      color: #ef9f76;
+      }
+      a {
+      text-decoration: none;
+      color: #99d1db;
+      }
+      ::selection {
+      background-color: transparent;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  </head>
+  <body>
     <div class="container">
-        <div class="title">Not<span class="highlight">Arya</span></div>
-      <p>
-    I'm Arya, A 14-year-old guy from Iran. I enjoy coding and playing video games.
-      </p>
-     <p id="timeDisplay">
-        <p id="birthday"></p>
-        <p id="user-status"></p><p id="user-status2"></p>
-        <p>Check out my <a href="https://github.com/notarya1000">GitHub</a> for projects.</p>
-           
-            </div>
+      <div class="title">Not<span class="highlight">Arya</span></div>
+      <p> I'm Arya, A 14-year-old guy from Iran. I enjoy coding and playing video games. </p>
+      <p id="timeDisplay">
+      <p id="birthday"></p>
+      <p id="user-status"></p>
+      <p id="user-status2"></p>
+      <p id="vscode"></p>
+      <p>Check out my <a href="https://github.com/notarya1000">GitHub</a> for projects.</p>
     </div>
-<script>
-    function updateTime() {
-    var offset = 3.5; // Set the offset to UTC+3:30
-    var time = new Date(new Date().getTime() + offset * 3600 * 1000).toUTCString().replace(/GMT$/, "");
-    var time1 = time.split(" ");
-    var time2 = time1[4].split(":");
-    var time3 = time2[0] + ":" + time2[1] + ":" + time2[2]; // Include seconds
-    document.getElementById("timeDisplay").innerHTML = "<i class='far fa-clock' style='color: #ef9f76'></i> My local time is <span class='pastel'>" + time3 + "</span> (Tehran, Iran)";
-}
-
-setInterval(updateTime, 1000);
-
-// Set the date we're counting down to
-var countDownDate = new Date("02/17/2025").getTime();
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-    // Get today's date and time
-    var now = new Date().getTime();
-    
-    // Find the distance between now and the count down date
-    var distance = countDownDate - now;
-    
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // Format the countdown string with Flamingo color
-    var countdownString = `<span class="countdown" style="color: #f4b8e4"><i class="fas fa-birthday-cake"></i> ${days}d ${hours}h ${minutes}m ${seconds}s</span> until my birthday`;
-
-    // Output the result in an element with id="birthday"
-    document.getElementById("birthday").innerHTML = countdownString;
-    
-    // If the count down is over, write some text 
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("birthday").innerHTML = "It's my birthday! 🎉";
-    }
-}, 1000);
-
-function fetchData() {
-    fetch('https://api.lanyard.rest/v1/users/1147999469854523414/')
-        .then(response => response.json())
-        .then(data => {
-            const user = data.data;
-            const user_info = user.discord_user;
-            const username = user_info.username;
-            const status = user.discord_status;
-
-            let statusText;
-            let statusClass;
-            let statusIcon;
-            let statusColor;
-
-            switch (status) {
-                case 'online':
-                    statusText = 'Online';
-                    statusClass = 'online';
-                    statusIcon = 'fas fa-check-circle'; // Online status icon
-                    statusColor = '#a6d189'; // Green color
-                    break;
-                case 'idle':
-                    statusText = 'Idle';
-                    statusClass = 'idle';
-                    statusIcon = 'fas fa-clock'; // Idle status icon
-                    statusColor = '#e5c890'; // Teal color
-                    break;
-                case 'dnd':
-                    statusText = 'in DND mode';
-                    statusClass = 'dnd';
-                    statusIcon = 'fas fa-ban'; // Do Not Disturb status icon
-                    statusColor = '#e78284'; // Red color
-                    break;
-                case 'offline':
-                    statusText = 'Offline';
-                    statusClass = 'offline';
-                    statusIcon = 'fas fa-times-circle'; // Offline status icon
-                    statusColor = '#7b7f94'; // Pastel gray color
-                    break;
-                default:
-                    statusText = 'Unknown';
-                    statusClass = ''; // No specific class for unknown status
-                    statusIcon = ''; // No specific icon for unknown status
-                    statusColor = '#c6d0f5'; // Text color
-            }
-
-            document.getElementById('user-status').innerHTML = `<span class="blurple"><i class="fab fa-discord"></i></span> <span class="blurple">@${username}</span> at Discord`;
-
-            document.getElementById('user-status2').innerHTML = `<span class="${statusClass}" style="color: ${statusColor}"><i class="${statusIcon}"></i></span> Currently <span class="${statusClass}" style="color: ${statusColor}">${statusText}</span>`;
-        })
-        .catch(error => {
-            console.error('Error fetching user status:', error);
-        });
-}
-
-// Fetch data every 1 second
-setInterval(fetchData, 1000);
-
-// Initial fetch
-fetchData();
-
-</script>
-</body>
+    </div>
+    <script>
+      function updateTime() {
+      	var offset = 3.5;
+      	var time = new Date(new Date().getTime() + offset * 3600 * 1000).toUTCString().replace(/GMT$/, "");
+      	var time1 = time.split(" ");
+      	var time2 = time1[4].split(":");
+      	var time3 = time2[0] + ":" + time2[1] + ":" + time2[2];
+      	document.getElementById("timeDisplay").innerHTML = "<i class='far fa-clock' style='color: #ef9f76'></i> My local time is <span class='pastel'>" + time3 + "</span> (Tehran, Iran)";
+      }
+      setInterval(updateTime, 1000);
+      var countDownDate = new Date("02/17/2025").getTime();
+      var x = setInterval(function() {
+      	var now = new Date().getTime();
+      	var distance = countDownDate - now;
+      	var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      	var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      	var countdownString = `<span class="countdown" style="color: #f4b8e4"><i class="fas fa-birthday-cake"></i> ${days}d ${hours}h ${minutes}m ${seconds}s</span> until my birthday`;
+      	document.getElementById("birthday").innerHTML = countdownString;
+      	if(distance < 0) {
+      		clearInterval(x);
+      		document.getElementById("birthday").innerHTML = "It's my birthday! 🎉";
+      	}
+      }, 1000);
+      
+      function fetchData() {
+      	fetch('https://api.lanyard.rest/v1/users/1147999469854523414/').then(response => response.json()).then(data => {
+      		const user = data.data;
+      		const user_info = user.discord_user;
+      		const username = user_info.username;
+      		const status = user.discord_status;
+      		let statusText;
+      		let statusClass;
+      		let statusIcon;
+      		let statusColor;
+      		switch(status) {
+      			case 'online':
+      				statusText = 'Online';
+      				statusClass = 'online';
+      				statusIcon = 'fas fa-circle';
+      				statusColor = '#a6d189';
+      				break;
+      			case 'idle':
+      				statusText = 'Idle';
+      				statusClass = 'idle';
+      				statusIcon = 'fas fa-moon';
+      				statusColor = '#e5c890';
+      				break;
+      			case 'dnd':
+      				statusText = 'in DND mode';
+      				statusClass = 'dnd';
+      				statusIcon = 'fas fa-circle';
+      				statusColor = '#e78284';
+      				break;
+      			case 'offline':
+      				statusText = 'Offline';
+      				statusClass = 'offline';
+      				statusIcon = 'fas fa-circle';
+      				statusColor = '#7b7f94';
+      				break;
+      			default:
+      				statusText = 'Unknown';
+      				statusClass = '';
+      				statusIcon = '';
+      				statusColor = '#c6d0f5';
+      		}
+      		document.getElementById('user-status').innerHTML = `<span class="blurple"><i class="fab fa-discord"></i></span> <span class="blurple">@${username}</span> at Discord`;
+      		document.getElementById('user-status2').innerHTML = `<span class="${statusClass}" style="color: ${statusColor}"><i class="${statusIcon}"></i></span> Currently <span class="${statusClass}" style="color: ${statusColor}">${statusText}</span>`;
+      	}).catch(error => {
+      		console.error('Error fetching user status:', error);
+      	});
+      	fetch('https://api.lanyard.rest/v1/users/1147999469854523414/').then(response => response.json()).then(data => {
+      		const activities = data.data.activities;
+      		if(activities && activities.length > 0) {
+      			let vscodeDetected = false;
+      			for(const activity of activities) {
+      				if(activity.name === "Visual Studio Code") {
+      					const vsCodeDetails = activity.details;
+      					const vsCodeState = activity.state;
+      					document.getElementById('vscode').innerHTML = `<i class="fa fa-code" style="color: #24abf2;"></i> <span style="color: #24abf2">${vsCodeState}</span> | <span style="color: #ea999c">${vsCodeDetails}</span>`;
+      					vscodeDetected = true;
+      					break;
+      				}
+      			}
+      			if(!vscodeDetected) {
+      				document.getElementById('vscode').textContent = "";
+      			}
+      		} else {
+      			console.log("[NOTHING] No VS Code detected.");
+      			document.getElementById('vscode').innerHTML = `<i class="fa fa-code" style="color: #626880;"></i> I'm not coding right now.`;
+      		}
+      	}).catch(error => {
+      		console.error('[ERROR] Could not fetch VS Code status.', error);
+      	});
+      }
+      setInterval(fetchData, 5000);
+      fetchData();
+    </script>
+  </body>
 </html>
