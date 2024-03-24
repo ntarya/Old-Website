@@ -1,5 +1,5 @@
 # Old personal website
-### HTML, CSS and JS
+### Written in HTML, CSS and JS
 
 Catppuccin colors: https://github.com/catppuccin/catppuccin
 
