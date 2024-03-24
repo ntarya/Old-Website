@@ -1,2 +1,6 @@
-# My personal website
-<p>It's a simple website that uses JetBrains Mono font and Catppuccin color palette to make it look great.</p>
+# Old personal website
+### HTML, CSS and JS
+
+Catppuccin colors: https://github.com/catppuccin/catppuccin
+JetBrains Mono font: https://www.jetbrains.com/lp/mono/
+Lanyard API: https://github.com/Phineas/lanyard
