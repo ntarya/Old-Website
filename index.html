@@ -79,7 +79,7 @@
       <p id="user-status"></p>
       <p id="user-status2"></p>
       <p id="vscode"></p>
-      <p>Check out my <a href="https://github.com/notarya1000">GitHub</a> for projects.</p>
+      <p>Check out my <a href="https://github.com/ntarya">GitHub</a> for projects.</p>
     </div>
     </div>
     <script>
@@ -108,78 +108,112 @@
       	}
       }, 1000);
       
-      function fetchData() {
-      	fetch('https://api.lanyard.rest/v1/users/1147999469854523414/').then(response => response.json()).then(data => {
-      		const user = data.data;
-      		const user_info = user.discord_user;
-      		const username = user_info.username;
-      		const status = user.discord_status;
-      		let statusText;
-      		let statusClass;
-      		let statusIcon;
-      		let statusColor;
-      		switch(status) {
-      			case 'online':
-      				statusText = 'Online';
-      				statusClass = 'online';
-      				statusIcon = 'fas fa-circle';
-      				statusColor = '#a6d189';
-      				break;
-      			case 'idle':
-      				statusText = 'Idle';
-      				statusClass = 'idle';
-      				statusIcon = 'fas fa-moon';
-      				statusColor = '#e5c890';
-      				break;
-      			case 'dnd':
-      				statusText = 'in DND mode';
-      				statusClass = 'dnd';
-      				statusIcon = 'fas fa-circle';
-      				statusColor = '#e78284';
-      				break;
-      			case 'offline':
-      				statusText = 'Offline';
-      				statusClass = 'offline';
-      				statusIcon = 'fas fa-circle';
-      				statusColor = '#7b7f94';
-      				break;
-      			default:
-      				statusText = 'Unknown';
-      				statusClass = '';
-      				statusIcon = '';
-      				statusColor = '#c6d0f5';
-      		}
-      		document.getElementById('user-status').innerHTML = `<span class="blurple"><i class="fab fa-discord"></i></span> <span class="blurple">@${username}</span> at Discord`;
-      		document.getElementById('user-status2').innerHTML = `<span class="${statusClass}" style="color: ${statusColor}"><i class="${statusIcon}"></i></span> Currently <span class="${statusClass}" style="color: ${statusColor}">${statusText}</span>`;
-      	}).catch(error => {
-      		console.error('Error fetching user status:', error);
-      	});
-      	fetch('https://api.lanyard.rest/v1/users/1147999469854523414/').then(response => response.json()).then(data => {
-      		const activities = data.data.activities;
-      		if(activities && activities.length > 0) {
-      			let vscodeDetected = false;
-      			for(const activity of activities) {
-      				if(activity.name === "Visual Studio Code") {
-      					const vsCodeDetails = activity.details;
-      					const vsCodeState = activity.state;
-      					document.getElementById('vscode').innerHTML = `<i class="fa fa-code" style="color: #24abf2;"></i> <span style="color: #24abf2">${vsCodeState}</span> | <span style="color: #ea999c">${vsCodeDetails}</span>`;
-      					vscodeDetected = true;
-      					break;
-      				}
-      			}
-      			if(!vscodeDetected) {
-      				document.getElementById('vscode').textContent = "";
-      			}
-      		} else {
-      			console.log("[NOTHING] No VS Code detected.");
-      			document.getElementById('vscode').innerHTML = `<i class="fa fa-code" style="color: #626880;"></i> I'm not coding right now.`;
-      		}
-      	}).catch(error => {
-      		console.error('[ERROR] Could not fetch VS Code status.', error);
-      	});
-      }
-      setInterval(fetchData, 5000);
-      fetchData();
+      class LanyardService {
+    constructor(discordId) {
+        this.webSocketUrl = 'wss://api.lanyard.rest/socket';
+        this.discordId = discordId;
+        this.socket = null;
+        this.listeners = [];
+    }
+
+    setupWebSocket() {
+        this.socket = new WebSocket(this.webSocketUrl);
+
+        this.socket.onopen = () => {
+            this.sendInitialData();
+            this.setupHeartbeat();
+        };
+
+        this.socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.t === 'INIT_STATE' || data.t === 'PRESENCE_UPDATE') {
+                this.notifyListeners(data.d);
+            }
+        };
+
+        this.socket.onclose = () => {
+            clearInterval(this.heartbeat);
+            setTimeout(() => this.setupWebSocket(), 5000); // Attempt to reconnect
+        };
+    }
+
+    sendInitialData() {
+        const dataInitial = {
+            op: 2,
+            d: {
+                subscribe_to_id: this.discordId
+            }
+        };
+        this.socket.send(JSON.stringify(dataInitial));
+    }
+
+    setupHeartbeat() {
+        this.heartbeat = setInterval(() => {
+            this.socket.send(JSON.stringify({ op: 3 })); // Heartbeat message
+        }, 30000); // Default interval, could be updated by server
+    }
+
+    addListener(callback) {
+        this.listeners.push(callback);
+    }
+
+    notifyListeners(data) {
+        this.listeners.forEach(callback => callback(data));
+    }
+}
+
+const lanyardService = new LanyardService('1147999469854523414');
+lanyardService.setupWebSocket();
+
+lanyardService.addListener((data) => {
+    console.log('Received data:', data);
+    handleLanyardData(data);
+});
+
+function handleLanyardData(data) {
+    if (!data) return;
+
+    const { discord_user, discord_status, activities } = data;
+
+    const username = discord_user.username;
+    const status = discord_status || 'offline';
+
+    const statusTextMap = {
+        'online': 'Online',
+        'idle': 'Idle',
+        'dnd': 'in DND mode',
+        'offline': 'Offline'
+    };
+
+    const statusColorMap = {
+        'online': '#a6d189',
+        'idle': '#e5c890',
+        'dnd': '#e78284',
+        'offline': '#7b7f94'
+    };
+
+    const statusIcon = status === 'offline' ? 'fas fa-circle' : 'fas fa-circle';
+
+    const statusText = statusTextMap[status];
+    const statusColor = statusColorMap[status];
+
+    document.getElementById('user-status').innerHTML = `<span class="blurple"><i class="fab fa-discord"></i></span> <span class="blurple">@${username}</span> at Discord`;
+    document.getElementById('user-status2').innerHTML = `<span class="${status}" style="color: ${statusColor}"><i class="${statusIcon}"></i></span> Currently <span class="${status}" style="color: ${statusColor}">${statusText}</span>`;
+
+    const vscodeElement = document.getElementById('vscode');
+
+    const vsCodeActivity = activities.find(activity => activity.name === "Visual Studio Code");
+
+    if (vsCodeActivity) {
+        const vsCodeDetails = vsCodeActivity.details || '';
+        const vsCodeState = vsCodeActivity.state || '';
+        vscodeElement.innerHTML = `<i class="fa fa-code" style="color: #24abf2;"></i> <span style="color: #24abf2">${vsCodeState}</span> | <span style="color: #ea999c">${vsCodeDetails}</span>`;
+    } else {
+        vscodeElement.innerHTML = `<i class="fa fa-code" style="color: #626880;"></i> I'm not coding right now.`;
+    }
+}
+
+
     </script>
   </body>
 </html>
