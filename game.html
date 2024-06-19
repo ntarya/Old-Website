@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Check</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+        #captcha-container {
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        #gif-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        #fullscreen-gif {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #captcha-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #000;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #captcha-button:hover {
+            background-color: #f0f0f0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #loading-bar {
+            width: 100%;
+            height: 5px;
+            background-color: #333;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        #loading-progress {
+            width: 0;
+            height: 100%;
+            background-color: #76c7c0;
+            animation: load 2s linear;
+        }
+        @keyframes load {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div id="captcha-container">
+        <p>Checking Captcha...</p>
+        <div id="loading-bar">
+            <div id="loading-progress"></div>
+        </div>
+        <button id="captcha-button">Continue</button>
+    </div>
+    <div id="gif-container">
+        <img id="fullscreen-gif" src="video.gif" alt="Full Screen GIF">
+    </div>
+    <script>
+        document.getElementById('captcha-button').addEventListener('click', function() {
+            document.getElementById('captcha-container').style.display = 'none';
+            document.getElementById('gif-container').style.display = 'flex';
+            document.getElementById('fullscreen-gif').requestFullscreen();
+        });
+    </script>
+</body>
+</html>
